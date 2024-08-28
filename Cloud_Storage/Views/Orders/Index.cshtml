@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Cloud_Storage.Models.Order>
+
+<h1>All Orders</h1>
+<a href="@Url.Action("Register", "Orders")" class="btn btn-primary">Add New Order</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>Product ID</th>
+            <th>Location</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Customer_ID</td>
+                <td>@order.Product_ID</td>
+                <td>@order.Order_Location</td>
+                <td>@order.Order_Date</td>
+            </tr>
+        }
+    </tbody>
+</table>
