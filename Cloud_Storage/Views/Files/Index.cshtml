@@ -1,40 +1,60 @@
 ﻿@model List<Cloud_Storage.Models.FileModel>
 
-<h1>Files</h1>
+<h1 class="text-center my-4">Files</h1>
 
 <!-- Display any messages -->
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-info">
+    <div class="alert alert-info text-center">
         @TempData["Message"]
     </div>
 }
 
-<!-- Upload form -->
-<form asp-action="Upload" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="file">Choose a file to upload:</label>
-        <input type="file" name="file" class="form-control" />
-        <button type="submit" class="btn btn-primary mt-2">Upload</button>
+<div class="container">
+    <!-- Upload form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Upload a File</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Upload" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Choose a file to upload:</label>
+                    <input type="file" name="file" class="form-control-file" required />
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Upload</button>
+            </form>
+        </div>
     </div>
-</form>
 
-<!-- Display uploaded files -->
-@if (Model != null && Model.Count > 0)
-{
-    <ul>
-        @foreach (var file in Model)
-        {
-            <li>
-                @file.Name -
-                Size: @file.DisplaySize -
-                Last Modified: @file.LastModified?.ToString("g")
-                - <a asp-action="DownloadFile" asp-route-fileName="@file.Name">Download</a>
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>No files found or model is null.</p>
-}
+    <!-- Display uploaded files -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Uploaded Files</h5>
+        </div>
+        <div class="card-body">
+            @if (Model != null && Model.Count > 0)
+            {
+                <ul class="list-group">
+                    @foreach (var file in Model)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>@file.Name</strong><br />
+                                <small>
+                                    Size: @file.DisplaySize <br />
+                                    Last Modified: @file.LastModified?.ToString("g")
+                                </small>
+                            </div>
+                            <a class="btn btn-outline-secondary btn-sm" asp-action="DownloadFile" asp-route-fileName="@file.Name">Download</a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-center">No files found.</p>
+            }
+        </div>
+    </div>
+</div>

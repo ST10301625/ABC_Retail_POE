@@ -2,7 +2,99 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container d-flex flex-wrap justify-content-center mt-4">
+    <!-- Card for Products -->
+    <div class="card m-2 fade-in" style="width: 18rem;">
+        <img src="~/images/walkin.jpg" class="card-img-top" alt="Products" />
+        <div class="card-body">
+            <h5 class="card-title">Products</h5>
+            <p class="card-text">Explore our wide range of products.</p>
+            <a href="@Url.Action("Index", "Products")" class="btn btn-brown">Go to Products</a>
+        </div>
+    </div>
+
+    <!-- Card for Customers -->
+    <div class="card m-2 fade-in" style="width: 18rem;">
+        <img src="~/images/customer_image.jpg" class="card-img-top" alt="Customers">
+        <div class="card-body">
+            <h5 class="card-title">Customers</h5>
+            <p class="card-text">Manage and view customer details.</p>
+            <a href="@Url.Action("Index", "Customers")" class="btn btn-brown">Go to Customers</a>
+        </div>
+    </div>
+
+    <!-- Card for Orders -->
+    <div class="card m-2 fade-in" style="width: 18rem;">
+        <img src="~/images/order_image.jpg" class="card-img-top" alt="Orders">
+        <div class="card-body">
+            <h5 class="card-title">Orders</h5>
+            <p class="card-text">View and manage your orders.</p>
+            <a href="@Url.Action("Index", "Orders")" class="btn btn-brown">Go to Orders</a>
+        </div>
+    </div>
+
+    <!-- Card for Files -->
+    <div class="card m-2 fade-in" style="width: 18rem;">
+        <img src="~/images/file_image.jpg" class="card-img-top" alt="Files">
+        <div class="card-body">
+            <h5 class="card-title">Files</h5>
+            <p class="card-text">Upload and manage your files.</p>
+            <a href="@Url.Action("Index", "Files")" class="btn btn-brown">Go to Files</a>
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Animation styles */
+    .fade-in {
+        opacity: 0; /* Start hidden */
+        transform: translateY(20px); /* Start slightly down */
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation timing */
+    }
+
+        .fade-in.visible {
+            opacity: 1; /* Fully visible */
+            transform: translateY(0); /* Move to original position */
+        }
+
+    /* Card text color */
+    .card-body {
+        color: black; /* Set text color to black */
+    }
+
+    /* Custom button style */
+    .btn-brown {
+        background-color: brown; /* Set button background to brown */
+        color: white; /* Set button text color to white */
+    }
+
+        .btn-brown:hover {
+            background-color: darkred; /* Darker brown on hover */
+        }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Check if the card is in view
+        function checkVisibility() {
+            $('.fade-in').each(function () {
+                var elementBottom = $(this).offset().top + $(this).outerHeight();
+                var windowBottom = $(window).scrollTop() + $(window).height();
+
+                // If the card is in view, add the 'visible' class
+                if (elementBottom < windowBottom) {
+                    $(this).addClass('visible');
+                }
+            });
+        }
+
+        // Initial check
+        checkVisibility();
+
+        // Check visibility on scroll
+        $(window).on('scroll', function () {
+            checkVisibility();
+        });
+    });
+</script>

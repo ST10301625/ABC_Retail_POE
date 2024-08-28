@@ -1,31 +1,48 @@
 ﻿@model IEnumerable<Cloud_Storage.Models.Customer>
 
-<h1>Customers</h1>
-<p>
-    <a href="@Url.Action("Create")" class="btn btn-primary">Add New Customer</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var customer in Model)
-        {
+<h1 class="text-center my-4 text-white">Customers</h1>
+
+<div class="container mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <p>
+            <a href="@Url.Action("Create")" class="btn btn-primary">Add New Customer</a>
+        </p>
+    </div>
+</div>
+
+<div class="container bg-dark p-4 rounded">
+    <table class="table table-striped table-bordered text-white">
+        <thead class="thead-dark">
             <tr>
-                <td>@customer.Customer_Name</td>
-                <td>@customer.email</td>
-                <td>
-                    <form asp-action="Delete" method="post" style="display:inline;">
-                        <input type="hidden" name="partitionKey" value="@customer.PartitionKey" />
-                        <input type="hidden" name="rowKey" value="@customer.RowKey" />
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?');">Delete</button>
-                    </form>
-                </td>
+                <th scope="col" class="text-white">Name</th>
+                <th scope="col" class="text-white">Email</th>
+                <th scope="col" class="text-white">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var customer in Model)
+                {
+                    <tr>
+                        <td class="text-white">@customer.Customer_Name</td>
+                        <td class="text-white">@customer.email</td>
+                        <td>
+                            <form asp-action="Delete" method="post" style="display:inline;">
+                                <input type="hidden" name="partitionKey" value="@customer.PartitionKey" />
+                                <input type="hidden" name="rowKey" value="@customer.RowKey" />
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="text-center text-white">No customers found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
