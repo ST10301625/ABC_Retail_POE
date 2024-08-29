@@ -19,8 +19,8 @@ public class OrdersController : Controller
     // Action to display all orders (optional first)
     public async Task<IActionResult> Index()
     {
-        var orders = await _tableStorageService.GetAllOrdersAsync();
-        return View(orders);
+        //var orders = await _tableStorageService.GetAllOrdersAsync();
+        return View();
     }
 
     public async Task<IActionResult> Register()

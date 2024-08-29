@@ -1,6 +1,15 @@
 ﻿@model IEnumerable<Cloud_Storage.Models.Product>
 
-<h1 class="text-center my-4">Products</h1>
+<!-- Banner Section -->
+<div class="banner">
+    <img src="~/images/abc_retail.jpg" alt="Banner Image" />
+    <div class="banner-text">
+        <h1>Products Page</h1>
+        <p>Explore our wide range of products available for you.</p>
+    </div>
+</div>
+
+<h1 class="text-center my-4"></h1>
 <a href="@Url.Action("AddProduct", "Products")" class="btn btn-primary mb-4">Add New Product</a>
 
 <div class="container">
@@ -31,3 +40,66 @@
         }
     </div>
 </div>
+
+<style>
+    /* Ensure the body and html take up the full width */
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    /* Banner Styles */
+    .banner {
+        width: 100; /* Full viewport width */
+        height: 360px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: -5px;
+    }
+
+        .banner img {
+            width: 100%; /* Full width */
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease; /* Smooth transition */
+        }
+
+        .banner:hover img {
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
+
+    .banner-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        text-align: center;
+    }
+
+        .banner-text h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .banner-text p {
+            font-size: 1.5rem;
+        }
+
+    /* Card Styles */
+    .card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+</style>

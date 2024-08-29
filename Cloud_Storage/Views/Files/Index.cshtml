@@ -1,5 +1,14 @@
 ﻿@model List<Cloud_Storage.Models.FileModel>
 
+<!-- Banner Section -->
+<div class="banner">
+    <img src="~/images/abc_retail.jpg" alt="Banner Image" />
+    <div class="banner-text">
+        <h1>Files Page</h1>
+        <p>Upload and manage your files here.</p>
+    </div>
+</div>
+
 <h1 class="text-center my-4">Files</h1>
 
 <!-- Display any messages -->
@@ -58,3 +67,54 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* Banner styling */
+    .banner {
+        width: 100%;
+        height: 360px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: -5px; /* Remove space above banner */
+    }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease; /* Smooth transition */
+        }
+
+        .banner:hover img {
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
+
+    .banner-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        text-align: center;
+    }
+
+        .banner-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .banner-text p {
+            font-size: 1.2rem;
+        }
+
+    /* Table and Page Styling */
+    .container {
+        margin-top: 20px;
+    }
+</style>
