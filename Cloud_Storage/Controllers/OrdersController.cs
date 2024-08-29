@@ -62,7 +62,7 @@ public class OrdersController : Controller
             await _tableStorageService.AddOrderAsync(order);
 
             // MessageQueue
-            string message = $"New order by Customer {order.Customer_ID} of Product {order.Product_ID} at {order.Order_Location} on {order.Order_Date}";
+            string message = $"New order by Customer at {order.Order_Location} on {order.Order_Date}";
             await _queueService.SendMessageAsync(message);
 
             return RedirectToAction("Index");

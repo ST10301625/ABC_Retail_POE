@@ -143,4 +143,14 @@ public class TableStorageService
 
         return orders;
     }
+
+    internal async Task<string?> GetCustomerByIdAsync(int customer_ID)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal async Task<string?> GetProductByIdAsync(int product_ID)
+    {
+        throw new NotImplementedException();
+    }
 }

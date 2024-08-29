@@ -20,24 +20,25 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProduct(Product product, IFormFile file)
+[HttpPost]
+public async Task<IActionResult> AddProduct(Product product, IFormFile file)
+{
+    if (file != null)
     {
-        if (file != null)
-        {
-            using var stream = file.OpenReadStream();
-            var imageUrl = await _blobService.UploadAsync(stream, file.FileName);
-            product.ImageUrl = imageUrl;
-        }
-
-        if (ModelState.IsValid)
-        {
-            product.PartitionKey = "ProductsPartition";
-            product.RowKey = Guid.NewGuid().ToString();
-            await _tableStorageService.AddProductAsync(product);
-            return RedirectToAction("Index");
-        }
-        return View(product);
+        using var stream = file.OpenReadStream();
+        var imageUrl = await _blobService.UploadAsync(stream, file.FileName);
+        product.ImageUrl = imageUrl;
     }
+
+    if (ModelState.IsValid)
+    {
+        product.PartitionKey = "ProductsPartition";
+        product.RowKey = Guid.NewGuid().ToString();
+        await _tableStorageService.AddProductAsync(product);
+        return RedirectToAction("Index");
+    }
+    return View(product);
+}
 
     [HttpPost]
     public async Task<IActionResult> DeleteProduct(string partitionKey, string rowKey, Product product)

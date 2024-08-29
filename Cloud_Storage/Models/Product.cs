@@ -13,6 +13,8 @@ namespace Cloud_Storage.Models
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }
         public string? Location { get; set; }
+        public int Price { get; set; }  // New property for price
+        public int Quantity { get; set; }  // New property for quantity
 
         // ITableEntity implementation
         public string? PartitionKey { get; set; }
