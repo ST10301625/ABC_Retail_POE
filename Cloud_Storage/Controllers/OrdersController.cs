@@ -19,7 +19,7 @@ public class OrdersController : Controller
     // Action to display all orders (optional first)
     public async Task<IActionResult> Index()
     {
-        //var orders = await _tableStorageService.GetAllOrdersAsync();
+      //  var orders = await _tableStorageService.GetAllOrdersAsync();
         return View();
     }
 
@@ -62,7 +62,7 @@ public class OrdersController : Controller
             await _tableStorageService.AddOrderAsync(order);
 
             // MessageQueue
-            string message = $"New order by Customer at {order.Order_Location} on {order.Order_Date}";
+            string message = $"New order by a customer in {order.Order_Location} on {order.Order_Date}";
             await _queueService.SendMessageAsync(message);
 
             return RedirectToAction("Index");

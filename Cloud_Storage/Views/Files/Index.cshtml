@@ -4,12 +4,12 @@
 <div class="banner">
     <img src="~/images/abc_retail.jpg" alt="Banner Image" />
     <div class="banner-text">
-        <h1>Files Page</h1>
-        <p>Upload and manage your files here.</p>
+        <h1>Contracts Page</h1>
+        <p>Upload and manage your contracts here.</p>
     </div>
 </div>
 
-<h1 class="text-center my-4">Files</h1>
+<h1 class="text-center my-4">Contract</h1>
 
 <!-- Display any messages -->
 @if (TempData["Message"] != null)
@@ -23,12 +23,12 @@
     <!-- Upload form -->
     <div class="card mb-4">
         <div class="card-header">
-            <h5 class="mb-0">Upload a File</h5>
+            <h5 class="mb-0">Upload a Contract</h5>
         </div>
         <div class="card-body">
             <form asp-action="Upload" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="file">Choose a file to upload:</label>
+                    <label for="file">Choose a contract to upload:</label>
                     <input type="file" name="file" class="form-control-file" required />
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Upload</button>
@@ -39,7 +39,7 @@
     <!-- Display uploaded files -->
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">Uploaded Files</h5>
+            <h5 class="mb-0">Uploaded Contracts</h5>
         </div>
         <div class="card-body">
             @if (Model != null && Model.Count > 0)

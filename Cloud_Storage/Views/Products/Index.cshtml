@@ -20,12 +20,12 @@
                 <div class="card">
                     @if (!string.IsNullOrEmpty(product.ImageUrl))
                     {
-                        <img src="@product.ImageUrl" alt="@product.Product_Name" class="card-img-top" style="height: 200px; object-fit: cover;" />
+                        <img src="@product.ImageUrl" alt="@product.Product_Name" class="card-img-top" />
                     }
                     <div class="card-body">
                         <h5 class="card-title">@product.Product_Name</h5>
                         <p class="card-text"><strong>Description:</strong> @product.Description</p>
-                        <p class="card-text"><strong>Price:</strong>R @product.Price</p>
+                        <p class="card-text"><strong>Price:</strong> R @product.Price</p>
                         <p class="card-text"><strong>Quantity:</strong> @product.Quantity</p>
                         <p class="card-text"><strong>Location:</strong> @product.Location</p>
                         <div class="mt-3">
@@ -94,11 +94,19 @@
         .banner-text p {
             font-size: 1.5rem;
         }
-        
+
     /* Card Styles */
     .card {
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        overflow: hidden; /* Prevent overflow of card content */
     }
+
+        .card img {
+            height: 200px; /* Fixed height for images */
+            width: 100%; /* Full width */
+            object-fit: contain; /* Maintain aspect ratio */
+            margin: 0; /* Remove margin */
+        }
 
         .card:hover {
             transform: translateY(-10px) scale(1.05);

@@ -9,43 +9,42 @@
     <link rel="stylesheet" href="~/Cloud_Storage.styles.css" asp-append-version="true" />
     <style>
         body {
-
-            background-size: cover; /* Cover the entire screen */
-            background-repeat: no-repeat; /* Do not repeat the image */
-            background-position: center; /* Center the image */
-            color: black; /* Set text color to black */
-            font-family: Arial, sans-serif; /* Use a clean font */
-            margin: 0; /* Remove default margin */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: black;
+            font-family: Arial, sans-serif;
+            margin: 0;
         }
 
         /* Navbar styling */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent background */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7); /* Luxurious shadow */
+            background-color: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
         }
 
             .navbar .navbar-brand {
-                font-size: 1.8em; /* Increase brand font size for luxury */
-                font-weight: bold; /* Make brand bold */
-                color: #FFD700; /* Gold color for luxurious feel */
-                text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Add shadow to brand */
+                font-size: 1.8em;
+                font-weight: bold;
+                color: #FFD700;
+                text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
             }
 
             .navbar .nav-link {
-                color: #fff; /* Set link color to white */
-                transition: color 0.3s; /* Smooth transition */
-                font-weight: 500; /* Slightly bold links */
+                color: #fff;
+                transition: color 0.3s;
+                font-weight: 500;
             }
 
                 .navbar .nav-link:hover {
-                    color: #FFD700; /* Gold hover color for luxury */
-                    text-decoration: underline; /* Underline on hover for elegance */
+                    color: #FFD700;
+                    text-decoration: underline;
                 }
 
         /* Card button styling */
         .btn-primary {
-            background-color: black; /* Change button color to brown */
-            border-color: black; /* Match border color to button */
+            background-color: black;
+            border-color: black;
         }
 
         /* Banner styling */
@@ -56,19 +55,19 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            overflow: hidden; /* Prevent overflow */
-            margin-top: -5px; /* Remove space above banner */
+            overflow: hidden;
+            margin-top: -5px;
         }
 
             .banner img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                transition: transform 0.5s ease; /* Smooth transition */
+                transition: transform 0.5s ease;
             }
 
             .banner:hover img {
-                transform: scale(1.05); /* Slight zoom on hover */
+                transform: scale(1.05);
             }
 
         .profile-image {
@@ -80,7 +79,7 @@
             bottom: -75px;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Add shadow for depth */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
         }
 
         .profile-name {
@@ -88,21 +87,114 @@
             margin-top: 90px;
             font-size: 24px;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
         /* Footer styling */
         .footer {
-            color: white; /* Ensure footer text is white */
-            padding: 20px 0; /* Add padding to footer */
-            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent background */
+            color: white;
+            padding: 20px 0;
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+
+        /* Partners section styling */
+        .partners-section {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+            .partners-section h3 {
+                font-size: 28px;
+                margin-bottom: 30px;
+                font-weight: bold;
+            }
+
+        .partner-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .partner-icon {
+            margin: 10px;
+            width: 100px;
+            height: 100px;
+        }
+
+            .partner-icon img {
+                max-width: 100%;
+                max-height: 100%;
+                transition: transform 0.3s ease;
+            }
+
+                .partner-icon img:hover {
+                    transform: scale(1.1);
+                }
+
+        /* Team section styling */
+        .team-section {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+            .team-section h3 {
+                font-size: 28px;
+                margin-bottom: 30px;
+                font-weight: bold;
+            }
+
+            .team-section p {
+                max-width: 600px;
+                margin: 0 auto 40px;
+                font-size: 16px;
+                line-height: 1.6;
+                color: #555;
+            }
+
+        .team-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .team-card {
+            margin: 10px;
+            width: 300px;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+            .team-card img {
+                max-width: 100%;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+            }
+
+            .team-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .team-card-body {
+            padding: 20px;
+        }
+
+        .team-card-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .team-card-text {
+            font-size: 16px;
+            color: #777;
         }
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-dark bg-black box-shadow mb-0">
-            <!-- Changed mb-3 to mb-0 -->
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ABC_Retail</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -121,7 +213,7 @@
                             <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Files" asp-action="Index">Files</a>
+                            <a class="nav-link" asp-area="" asp-controller="Files" asp-action="Index">Contracts</a>
                         </li>
                     </ul>
                 </div>
@@ -135,8 +227,6 @@
         <div class="banner">
             <!-- Banner Image -->
             <img src="~/images/blue and red futuristic game youtube channel art (1).png" />
-            <!-- Profile Image -->
-            @* <img src="~/images/white black minimalist fashion store logo.png" alt="Profile Image" class="profile-image" /> *@
         </div>
         <div class="profile-name">Welcome to ABC_Retails</div>
     }
@@ -144,13 +234,80 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
+            <!-- Partners Section -->
+            <div class="partners-section">
+                <h3>Our Partners</h3>
+                <div class="partner-icons">
+                    <div class="partner-icon">
+                        <a href="https://www.gucci.com" target="_blank">
+                            <img src="~/images/gucci_logo(1).jpg" alt="Gucci" />
+                        </a>
+                        <h4>Gucci</h4>
+                    </div>
+                    <div class="partner-icon">
+                        <a href="https://www.nike.com" target="_blank">
+                            <img src="~/images/font-nike-logo.png" alt="Nike" />
+                        </a>
+                        <h4>Nike</h4>
+                    </div>
+                    <div class="partner-icon">
+                        <a href="https://www.adidas.com" target="_blank">
+                            <img src="~/images/adidas.jpg" alt="Adidas" />
+                        </a>
+                        <h4>Adidas</h4>
+                    </div>
+                    <div class="partner-icon">
+                        <a href="https://www.louisvuitton.com" target="_blank">
+                            <img src="~/images/lv.jpg" alt="Louis Vuitton" />
+                        </a>
+                        <h4>Louis Vuitton</h4>
+                    </div>
+                </div>
+            </div>
+
+            @* Only show the "Meet Our Team" section on the Home/Index page *@
+            @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" &&
+            ViewContext.RouteData.Values["action"].ToString() == "Index")
+            {
+                <!-- Meet Our Team Section -->
+                <div class="team-section">
+                    <h3>Meet Our Team</h3>
+                    <p>
+                        Behind ABC Retailers is a team of passionate professionals dedicated to bringing you the best in retail services. Meet the people making it all happen.
+                    </p>
+                    <div class="team-cards">
+                        <div class="card team-card">
+                            <img src="~/images/business_w(1).jpg" alt="Alice Johnson" />
+                            <div class="team-card-body">
+                                <h5 class="team-card-title">Alice Johnson</h5>
+                                <p class="team-card-text">Chief Executive Officer</p>
+                            </div>
+                        </div>
+                        <div class="card team-card">
+                            <img src="~/images/img_20240804_180345_195.jpg" alt="Cameron Totham"/>
+                            <div class="team-card-body">
+                                <h5 class="team-card-title">Cameron Totham</h5>
+                                <p class="team-card-text">Chief Operations Officer</p>
+                            </div>
+                        </div>
+                        <div class="card team-card">
+                            <img src="~/images/business_w(2).jpg" alt="Catherine Lee" />
+                            <div class="team-card-body">
+                                <h5 class="team-card-title">Catherine Lee</h5>
+                                <p class="team-card-text">Chief Marketing Officer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </main>
     </div>
 
-    </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
