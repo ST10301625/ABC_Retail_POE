@@ -16,13 +16,15 @@ public class OrdersController : Controller
         _queueService = queueService;
     }
 
-    // Action to display all orders (optional first)
+    // Action to display all orders
     public async Task<IActionResult> Index()
     {
-      //  var orders = await _tableStorageService.GetAllOrdersAsync();
+        var orders = await _tableStorageService.GetAllOrdersAsync();
+        ViewBag.OrderConfirmedMessage = TempData["OrderConfirmed"] as string;
         return View();
     }
 
+    // Action to display the order registration form
     public async Task<IActionResult> Register()
     {
         var customers = await _tableStorageService.GetAllCustomersAsync();
@@ -31,16 +33,14 @@ public class OrdersController : Controller
         // Check for null or empty lists
         if (customers == null || customers.Count == 0)
         {
-            // Handle the case where no customers are found
             ModelState.AddModelError("", "No customers found. Please add customers first.");
-            return View(); // Or redirect to another action
+            return View();
         }
 
         if (products == null || products.Count == 0)
         {
-            // Handle the case where no products are found
             ModelState.AddModelError("", "No products found. Please add products first.");
-            return View(); // Or redirect to another action
+            return View();
         }
 
         ViewData["Customers"] = customers;
@@ -65,6 +65,8 @@ public class OrdersController : Controller
             string message = $"New order by a customer in {order.Order_Location} on {order.Order_Date}";
             await _queueService.SendMessageAsync(message);
 
+            // Set confirmation message
+            TempData["OrderConfirmed"] = "Order Confirmed";
             return RedirectToAction("Index");
         }
         else

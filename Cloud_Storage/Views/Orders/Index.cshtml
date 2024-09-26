@@ -17,6 +17,14 @@
     </div>
 </div>
 
+<!-- Display Order Confirmed Message -->
+@if (!string.IsNullOrEmpty(ViewBag.OrderConfirmedMessage))
+{
+    <div class="alert alert-success text-center">
+        @ViewBag.OrderConfirmedMessage
+    </div>
+}
+
 <div class="container bg-dark p-4 rounded">
     <table class="table table-striped table-bordered text-white">
         <thead class="thead-dark">
