@@ -2,9 +2,11 @@
 using Azure.Storage.Files.Shares;
 using Azure.Storage.Files.Shares.Models;
 using Cloud_Storage.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 public class AzureFileShareService
@@ -18,27 +20,37 @@ public class AzureFileShareService
         _fileShareName = fileShareName ?? throw new ArgumentNullException(nameof(fileShareName));
     }
 
-    public async Task UploadFileAsync(string directoryName, string fileName, Stream fileStream)
+    public async Task UploadFileAsync(IFormFile file)
     {
+        if (file == null || file.Length == 0)
+        {
+            throw new ArgumentException("No file provided for upload.");
+        }
+
         try
         {
-            var serviceClient = new ShareServiceClient(_connectionString);
-            var shareClient = serviceClient.GetShareClient(_fileShareName);
+            using (var stream = file.OpenReadStream())
+            {
+                var content = new MultipartFormDataContent();
+                content.Add(new StreamContent(stream), "file", file.FileName);
 
-            var directoryClient = shareClient.GetDirectoryClient(directoryName);
-            await directoryClient.CreateIfNotExistsAsync();
+                string azureFunctionUrl = "http://localhost:7012/api/UploadFile"; // This should match your Azure Function's URL
 
-            var fileClient = directoryClient.GetFileClient(fileName);
+                using (var httpClient = new HttpClient())
+                {
+                    var response = await httpClient.PostAsync(azureFunctionUrl, content);
 
-            await fileClient.CreateAsync(fileStream.Length);
-            await fileClient.UploadRangeAsync(new HttpRange(0, fileStream.Length), fileStream);
-
-            Console.WriteLine($"File '{fileName}' uploaded to '{directoryName}' in file share '{_fileShareName}'.");
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new Exception($"File upload to Azure Function failed: {response.ReasonPhrase}");
+                    }
+                }
+            }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error uploading file: {ex.Message}");
-            throw;
+            // Replace Console.WriteLine with logging
+            throw new Exception($"Error uploading file: {ex.Message}", ex);
         }
     }
 
@@ -48,7 +60,6 @@ public class AzureFileShareService
         {
             var serviceClient = new ShareServiceClient(_connectionString);
             var shareClient = serviceClient.GetShareClient(_fileShareName);
-
             var directoryClient = shareClient.GetDirectoryClient(directoryName);
             var fileClient = directoryClient.GetFileClient(fileName);
 
@@ -57,8 +68,7 @@ public class AzureFileShareService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error downloading file: {ex.Message}");
-            return null;
+            throw new Exception($"Error downloading file: {ex.Message}", ex);
         }
     }
 
@@ -70,7 +80,6 @@ public class AzureFileShareService
         {
             var serviceClient = new ShareServiceClient(_connectionString);
             var shareClient = serviceClient.GetShareClient(_fileShareName);
-
             var directoryClient = shareClient.GetDirectoryClient(directoryName);
 
             await foreach (ShareFileItem item in directoryClient.GetFilesAndDirectoriesAsync())
@@ -91,8 +100,7 @@ public class AzureFileShareService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error listing files: {ex.Message}");
-            throw;
+            throw new Exception($"Error listing files: {ex.Message}", ex);
         }
 
         return fileModels;

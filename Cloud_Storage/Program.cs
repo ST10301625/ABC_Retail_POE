@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Azure.Storage.Files.Shares;
 using Cloud_Storage.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +9,9 @@ var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Register HttpClient
+builder.Services.AddHttpClient(); // Registering HttpClient
 
 // Register BlobService with configuration
 builder.Services.AddSingleton(new BlobService(configuration.GetConnectionString("AzureStorage")));
@@ -36,7 +39,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -52,5 +54,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-// 
