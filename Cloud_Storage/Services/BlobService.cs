@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Cloud_Storage.Models;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -16,18 +17,24 @@ namespace Cloud_Storage.Services
             _blobServiceClient = new BlobServiceClient(connectionString);
         }
 
-        public async Task<string> UploadAsync(Stream fileStream, string fileName)
+        // Removed UploadAsync method since image uploads are handled by the Azure Function.
+
+        public async Task<string> GetImageUrlAsync(string fileName)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
             var blobClient = containerClient.GetBlobClient(fileName);
-            await blobClient.UploadAsync(fileStream);
-            return blobClient.Uri.ToString();
+
+            if (await blobClient.ExistsAsync())
+            {
+                return blobClient.Uri.ToString();
+            }
+            return null;
         }
 
         public async Task DeleteBlobAsync(string blobUri)
         {
             Uri uri = new Uri(blobUri);
-            string blobName = uri.Segments[^1];
+            string blobName = uri.Segments[^1]; // Get the blob name from the URI
             var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
             var blobClient = containerClient.GetBlobClient(blobName);
             await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);

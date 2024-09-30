@@ -20,25 +20,47 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
-[HttpPost]
-public async Task<IActionResult> AddProduct(Product product, IFormFile file)
-{
-    if (file != null)
-    {
-        using var stream = file.OpenReadStream();
-        var imageUrl = await _blobService.UploadAsync(stream, file.FileName);
-        product.ImageUrl = imageUrl;
-    }
 
-    if (ModelState.IsValid)
+
+    [HttpPost]
+    public async Task<IActionResult> AddProduct(Product product, IFormFile file)
     {
-        product.PartitionKey = "ProductsPartition";
-        product.RowKey = Guid.NewGuid().ToString();
-        await _tableStorageService.AddProductAsync(product);
-        return RedirectToAction("Index");
+        if (file != null)
+        {
+            // Prepare the request to your Azure Function
+            using var formContent = new MultipartFormDataContent();
+            using var stream = file.OpenReadStream();
+
+            // Add the file to the form content
+            formContent.Add(new StreamContent(stream), "file", file.FileName);
+
+            // Send the request to the Azure Function
+            using var httpClient = new HttpClient();
+            var response = await httpClient.PostAsync("http://localhost:7012/api/UploadImage", formContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Get the image URL from the response
+                var imageUrl = await response.Content.ReadAsStringAsync();
+                product.ImageUrl = imageUrl;
+            }
+            else
+            {
+                ModelState.AddModelError("", "Image upload failed.");
+                return View(product);
+            }
+        }
+
+        if (ModelState.IsValid)
+        {
+            product.PartitionKey = "ProductsPartition";
+            product.RowKey = Guid.NewGuid().ToString();
+            await _tableStorageService.AddProductAsync(product);
+            return RedirectToAction("Index");
+        }
+
+        return View(product);
     }
-    return View(product);
-}
 
     [HttpPost]
     public async Task<IActionResult> DeleteProduct(string partitionKey, string rowKey, Product product)
