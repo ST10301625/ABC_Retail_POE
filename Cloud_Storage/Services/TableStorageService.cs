@@ -3,28 +3,53 @@ using Azure.Data.Tables;
 using Cloud_Storage.Models;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json; // For using Json extension methods
 using System.Threading.Tasks;
 
 public class TableStorageService
 {
-    private readonly TableClient _tableClient;
     private readonly TableClient _customerTableClient;
     private readonly TableClient _orderTableClient;
+    private readonly TableClient _productTableClient; // Correctly initialized for Products
+
+    // URL to the Azure Function
+    private readonly string _functionUrl = "http://localhost:7012/api/GetAllProducts";
 
     public TableStorageService(string connectionString)
     {
-        _tableClient = new TableClient(connectionString, "Products");
         _customerTableClient = new TableClient(connectionString, "Customers");
         _orderTableClient = new TableClient(connectionString, "Orders");
+        _productTableClient = new TableClient(connectionString, "Products"); // Initialize product table client
     }
 
+    // Updated method to call the Azure Function
     public async Task<List<Product>> GetAllProductsAsync()
     {
         var products = new List<Product>();
 
-        await foreach (var product in _tableClient.QueryAsync<Product>())
+        using (var httpClient = new HttpClient())
         {
-            products.Add(product);
+            try
+            {
+                // Make a GET request to the Azure Function
+                var response = await httpClient.GetAsync(_functionUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Deserialize the JSON response to a list of Product
+                    products = await response.Content.ReadFromJsonAsync<List<Product>>() ?? new List<Product>();
+                }
+                else
+                {
+                    throw new Exception($"Failed to fetch products: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (e.g., log them)
+                throw new Exception($"An error occurred while retrieving products: {ex.Message}", ex);
+            }
         }
 
         return products;
@@ -40,25 +65,27 @@ public class TableStorageService
 
         try
         {
-            await _tableClient.AddEntityAsync(product);
+            // Add product directly to Table Storage
+            await _productTableClient.AddEntityAsync(product);
         }
         catch (RequestFailedException ex)
         {
             // Handle exception as necessary, for example log it or rethrow
-            throw new InvalidOperationException("Error adding entity to Table Storage", ex);
+            throw new InvalidOperationException("Error adding product to Table Storage", ex);
         }
     }
 
     public async Task DeleteProductAsync(string partitionKey, string rowKey)
     {
-        await _tableClient.DeleteEntityAsync(partitionKey, rowKey);
+        // Delete product from Table Storage
+        await _productTableClient.DeleteEntityAsync(partitionKey, rowKey);
     }
 
     public async Task<Product?> GetProductAsync(string partitionKey, string rowKey)
     {
         try
         {
-            var response = await _tableClient.GetEntityAsync<Product>(partitionKey, rowKey);
+            var response = await _productTableClient.GetEntityAsync<Product>(partitionKey, rowKey);
             return response.Value;
         }
         catch (RequestFailedException ex) when (ex.Status == 404)
@@ -93,7 +120,7 @@ public class TableStorageService
         }
         catch (RequestFailedException ex)
         {
-            throw new InvalidOperationException("Error adding entity to Table Storage", ex);
+            throw new InvalidOperationException("Error adding customer to Table Storage", ex);
         }
     }
 
@@ -144,6 +171,7 @@ public class TableStorageService
         return orders;
     }
 
+    // Placeholder methods, implement as necessary
     internal async Task<string?> GetCustomerByIdAsync(int customer_ID)
     {
         throw new NotImplementedException();
