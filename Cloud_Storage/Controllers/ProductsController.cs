@@ -36,7 +36,7 @@ public class ProductsController : Controller
 
             // Send the request to the Azure Function
             using var httpClient = new HttpClient();
-            var response = await httpClient.PostAsync("http://localhost:7012/api/UploadImage", formContent);
+            var response = await httpClient.PostAsync("https://st10301625functionapp.azurewebsites.net/api/UploadImage?code=mjEQ1wN4M0uB-yXkHM5h-wABnkk-8BU8kfX_MPra1XaPAzFu32xQ8w%3D%3D", formContent);
 
             if (response.IsSuccessStatusCode)
             {

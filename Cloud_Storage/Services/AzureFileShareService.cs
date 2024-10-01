@@ -34,7 +34,7 @@ public class AzureFileShareService
                 var content = new MultipartFormDataContent();
                 content.Add(new StreamContent(stream), "file", file.FileName);
 
-                string azureFunctionUrl = "http://localhost:7012/api/UploadFile"; // This should match your Azure Function's URL
+                string azureFunctionUrl = "https://st10301625functionapp.azurewebsites.net/api/UploadFile?code=7CN0IhdrMXbJ3IdaWEzsP2yhGCALVIrtyVIVJ2CUfUO7AzFuPUvmHQ%3D%3D"; // This should match your Azure Function's URL
 
                 using (var httpClient = new HttpClient())
                 {

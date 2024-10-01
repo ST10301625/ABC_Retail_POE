@@ -14,7 +14,7 @@ public class TableStorageService
     private readonly TableClient _productTableClient; // Correctly initialized for Products
 
     // URL to the Azure Function
-    private readonly string _functionUrl = "http://localhost:7012/api/GetAllProducts";
+    private readonly string _functionUrl = "https://st10301625functionapp.azurewebsites.net/api/GetAllProducts?code=TFpRYZl_ThfDk9RnnYPTeOst2zUSho3ExdedTKh2-w9FAzFu2fGJPw%3D%3D";
 
     public TableStorageService(string connectionString)
     {

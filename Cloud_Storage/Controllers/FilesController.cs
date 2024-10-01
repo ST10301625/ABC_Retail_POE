@@ -51,7 +51,7 @@ public class FilesController : Controller
                 content.Add(new StreamContent(stream), "file", file.FileName);
 
                 // Call the Azure Function - replace with your actual function URL
-                string azureFunctionUrl = "http://localhost:7012/api/UploadFile"; // Consider moving this to appsettings
+                string azureFunctionUrl = "https://st10301625functionapp.azurewebsites.net/api/UploadFile?code=7CN0IhdrMXbJ3IdaWEzsP2yhGCALVIrtyVIVJ2CUfUO7AzFuPUvmHQ%3D%3D"; // Consider moving this to appsettings
 
                 var response = await _httpClient.PostAsync(azureFunctionUrl, content);
 

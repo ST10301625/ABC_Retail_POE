@@ -1,0 +1,27 @@
+﻿@model Cloud_Storage.Models.SignUpViewModel
+
+<h2>Sign Up</h2>
+
+<form asp-action="SignUp" method="post">
+    <div class="form-group">
+        <label for="Username">Username</label>
+        <input asp-for="Username" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input asp-for="Email" type="email" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <input asp-for="Password" type="password" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="ConfirmPassword">Confirm Password</label>
+        <input asp-for="ConfirmPassword" type="password" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+</form>

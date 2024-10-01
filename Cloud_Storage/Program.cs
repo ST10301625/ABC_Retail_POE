@@ -1,6 +1,9 @@
 ﻿using Azure.Storage.Files.Shares;
 using Cloud_Storage.Services;
 using Microsoft.EntityFrameworkCore;
+using Azure.Data.Tables;  // Add this for Azure Table Storage
+using Microsoft.AspNetCore.Authentication.Cookies; // Add this for cookie authentication
+using Cloud_Storage.Services;  // Assuming you have TableStorageService in a Services folder
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +36,23 @@ builder.Services.AddSingleton<AzureFileShareService>(sp =>
     return new AzureFileShareService(connectionString, "fileshare");
 });
 
+// Register TableClient for Azure Table Storage (for user login and signup)
+builder.Services.AddSingleton(sp =>
+{
+    var connectionString = configuration.GetConnectionString("AzureStorage");
+    string tableName = "sign";  // Use the "sign" table for storing user information
+    return new TableClient(connectionString, tableName);
+});
+
+// Add Cookie Authentication for login system
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +67,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Add authentication and authorization middleware
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
